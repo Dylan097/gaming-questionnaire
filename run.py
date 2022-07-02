@@ -26,7 +26,16 @@ def get_responses():
     for i in range(len(data)):
         data[i] = data[i][slice(1,4)]
     data = data[slice(1, (len(data)+1))]
+    return data
+
+
+def calculate_response_tally(data):
+    """
+    Gets each response made and calculates how many times
+    the response was given
+    """
     pprint(data)
 
 
-get_responses()
+results = get_responses()
+calculate_response_tally(results)
