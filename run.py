@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -14,6 +15,18 @@ SHEET = GSPREAD_CLIENT.open('gaming_questionnaire')
 
 responses = SHEET.worksheet('Responses')
 
-data = responses.get_all_values()
 
-print(data)
+def get_responses():
+    """
+    Collect the responses from the spreadsheet.
+    Return the data for calculation for other spreadsheets
+    """
+
+    data = responses.get_all_values()
+    for i in range(len(data)):
+        data[i] = data[i][slice(1,4)]
+    data = data[slice(1, (len(data)+1))]
+    pprint(data)
+
+
+get_responses()
