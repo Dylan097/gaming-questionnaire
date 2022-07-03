@@ -15,6 +15,18 @@ SHEET = GSPREAD_CLIENT.open('gaming_questionnaire')
 
 responses = SHEET.worksheet('Responses')
 
+responseAnswers = {
+    'Strategy': 1,
+    'RPG': 2,
+    'FPS (First Person Shooter)': 3,
+    'Action': 4,
+    'TPS (Third Person Shooter)': 5,
+    'Simulation': 6,
+    'Platformer': 7,
+    'Adventure': 8,
+    'Sport': 9
+}
+
 
 def get_responses():
     """
@@ -34,8 +46,14 @@ def calculate_response_tally(data):
     Gets each response made and calculates how many times
     the response was given
     """
-    pprint(data)
+    print(responseAnswers['Strategy'])
+    for array in data:
+        for string in array:
+            if string == ('Mobile' or 'PC' or 'Console'):
+                continue
+            print(responseAnswers[string])
 
 
 results = get_responses()
 calculate_response_tally(results)
+print(responseAnswers)
