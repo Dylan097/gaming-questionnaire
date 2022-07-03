@@ -13,7 +13,8 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('gaming_questionnaire')
 
-responses = SHEET.worksheet('Responses')
+RESPONSES = SHEET.worksheet('Responses')
+COMPLETED = SHEET.worksheet('Completed')
 
 responseAnswers = {
     'Strategy': 1,
@@ -50,13 +51,30 @@ leastCells = {
 }
 
 
+def check_timestamp():
+    """
+    Check and compare timestamps between latest response and 
+    latest completed response
+    """
+    timeStamps = RESPONSES.get_all_values()
+    latestTime = timeStamps[-1][0]
+    completedTimes = COMPLETED.get_all_values()
+    latestCompleted = completedTimes[-1]
+    if latestTime == latestCompleted:
+        return True
+    return False
+
+
 def get_responses():
     """
     Collect the responses from the spreadsheet.
     Return the data for calculation for other spreadsheets
     """
 
-    data = responses.get_all_values()
+    while True:
+        if check_timestamp() == False:
+            break
+    data = RESPONSES.get_all_values()
     for i in range(len(data)):
         data[i] = data[i][slice(1,4)]
     data = data[slice(1, (len(data)+1))]
