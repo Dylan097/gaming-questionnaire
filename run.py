@@ -26,6 +26,28 @@ responseAnswers = {
     'Adventure': 8,
     'Sport': 9
 }
+favouritesCells = {
+    'Strategy': 'B2',
+    'RPG': 'B3',
+    'FPS (First Person Shooter)': 'B4',
+    'Action': 'B5',
+    'TPS (Third Person Shooter)': 'B6',
+    'Simulation': 'B7',
+    'Platformer': 'B8',
+    'Adventure': 'B9',
+    'Sport': 'B10'
+}
+leastCells = {
+    'Strategy': 'C2',
+    'RPG': 'C3',
+    'FPS (First Person Shooter)': 'C4',
+    'Action': 'C5',
+    'TPS (Third Person Shooter)': 'C6',
+    'Simulation': 'C7',
+    'Platformer': 'C8',
+    'Adventure': 'C9',
+    'Sport': 'C10'
+}
 
 
 def get_responses():
@@ -46,15 +68,20 @@ def calculate_response_tally(data):
     Gets each response made and calculates how many times
     the response was given
     """
-    tally = SHEET.worksheet('Response tally')
-    answers = tally.get_all_values()
+    tallies = SHEET.worksheet('Response tally')
+    answers = tallies.get_all_values()
     print(answers[1])
     for array in data:
         for i in range(len(array)):
             if array[i] == ('Mobile' or 'PC' or 'Console'):
                 continue
             answer = responseAnswers[array[i]]
-            print(answers[answer][i+1])
+            tally = int(answers[answer][i+1])
+            tally = tally + 1
+            if i == 0:
+                tallies.update(favouritesCells[array[i]], tally)
+            elif i == 1:
+                tallies.update(leastCells[array[i]], tally)
 
 
 results = get_responses()
