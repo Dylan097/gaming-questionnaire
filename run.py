@@ -46,14 +46,16 @@ def calculate_response_tally(data):
     Gets each response made and calculates how many times
     the response was given
     """
-    print(responseAnswers['Strategy'])
+    tally = SHEET.worksheet('Response tally')
+    answers = tally.get_all_values()
+    print(answers[1])
     for array in data:
-        for string in array:
-            if string == ('Mobile' or 'PC' or 'Console'):
+        for i in range(len(array)):
+            if array[i] == ('Mobile' or 'PC' or 'Console'):
                 continue
-            print(responseAnswers[string])
+            answer = responseAnswers[array[i]]
+            print(answers[answer][i+1])
 
 
 results = get_responses()
 calculate_response_tally(results)
-print(responseAnswers)
