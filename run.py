@@ -111,7 +111,7 @@ def calculate_response_tally(data):
     print('Calculating responses tally...\n')
     answers = TALLIES.get_all_values()
     for i in range(len(data[-1])):
-        if data[-1][i] == ('Mobile' or 'PC' or 'Console'):
+        if data[-1][i] == 'Mobile' or 'PC' or 'Console':
             continue
         else:
             answer = responseAnswers[data[-1][i]]
@@ -137,7 +137,6 @@ def tally_platform_choices(data):
     platform = SHEET.worksheet('Platform choice')
     answers = platform.get_all_values()
     answer = platformChoices[data[-1][2]]
-    print(answers[answer])
     tally = int(answers[answer][1])
     tally = tally + 1
     platform.update(platformCells[data[-1][2]], tally)
@@ -151,7 +150,6 @@ def update_completed_checks():
     print('Updating completed checks...\n')
     timestamps = RESPONSES.get_all_values()
     timestamp = timestamps[-1][0]
-    print(timestamp)
     COMPLETED.update('A2', timestamp)
     print('Updated completed checks!\n')
 
