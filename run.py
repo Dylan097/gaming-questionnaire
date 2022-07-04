@@ -94,18 +94,17 @@ def calculate_response_tally(data):
     """
     tallies = SHEET.worksheet('Response tally')
     answers = tallies.get_all_values()
-    for array in data:
-        for i in range(len(array)):
-            print(array[i])
-            if array[i] == ('Mobile' or 'PC' or 'Console'):
-                continue
-            answer = responseAnswers[array[i]]
+    for i in range(len(data[-1])):
+        if data[-1][i] == ('Mobile' or 'PC' or 'Console'):
+            continue
+        else:
+            answer = responseAnswers[data[-1][i]]
             tally = int(answers[answer][i+1])
             tally = tally + 1
             if i == 0:
-                tallies.update(favouritesCells[array[i]], tally)
+                tallies.update(favouritesCells[data[-1][i]], tally)
             elif i == 1:
-                tallies.update(leastCells[array[i]], tally)
+                tallies.update(leastCells[data[-1][i]], tally)
 
 
 def tally_platform_choices(data):
