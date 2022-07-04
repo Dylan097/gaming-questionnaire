@@ -49,6 +49,16 @@ leastCells = {
     'Adventure': 'C9',
     'Sport': 'C10'
 }
+platformChoices = {
+    'Mobile': 0,
+    'PC': 1,
+    'Console': 2
+}
+platformCells = {
+    'Mobile': 'B1',
+    'PC': 'B2',
+    'Console': 'B3'
+}
 
 
 def check_timestamp():
@@ -61,8 +71,8 @@ def check_timestamp():
     completedTimes = COMPLETED.get_all_values()
     latestCompleted = completedTimes[-1]
     if latestTime == latestCompleted:
-        return True
-    return False
+        return False
+    return True
 
 
 def get_responses():
@@ -70,10 +80,6 @@ def get_responses():
     Collect the responses from the spreadsheet.
     Return the data for calculation for other spreadsheets
     """
-
-    while True:
-        if check_timestamp() == False:
-            break
     data = RESPONSES.get_all_values()
     for i in range(len(data)):
         data[i] = data[i][slice(1,4)]
@@ -88,9 +94,9 @@ def calculate_response_tally(data):
     """
     tallies = SHEET.worksheet('Response tally')
     answers = tallies.get_all_values()
-    print(answers[1])
     for array in data:
         for i in range(len(array)):
+            print(array[i])
             if array[i] == ('Mobile' or 'PC' or 'Console'):
                 continue
             answer = responseAnswers[array[i]]
@@ -102,5 +108,21 @@ def calculate_response_tally(data):
                 tallies.update(leastCells[array[i]], tally)
 
 
-results = get_responses()
-calculate_response_tally(results)
+def tally_platform_choices(data):
+    """
+    Tally up the platform choice data and update
+    the spreadsheet with the tally values
+    """
+    platform = SHEET.worksheet('Platform choice')
+    answers = platform.get_all_values()
+    answer = platformChoices[data[-1][2]]
+    print(answers[answer])
+    tally = int(answers[answer][1])
+    tally = tally + 1
+    platform.update(platformCells[data[-1][2]], tally)
+
+
+if check_timestamp():
+    results = get_responses()
+    calculate_response_tally(results)
+    tally_platform_choices(results)
