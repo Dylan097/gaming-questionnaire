@@ -110,21 +110,20 @@ def calculate_response_tally(data):
     """
     print('Calculating responses tally...\n')
     answers = TALLIES.get_all_values()
-    for i in range(len(data[-1])):
-        if data[-1][i] == 'Mobile' or 'PC' or 'Console':
-            continue
-        else:
-            answer = response_answers[data[-1][i]]
-            tally = int(answers[answer][i+1])
-            tally = tally + 1
-            if i == 0:
-                print(f'Increasing {data[-1][i]} favourites value...\n')
-                TALLIES.update(favourites_cells[data[-1][i]], tally)
-                print(f'{data[-1][i]} increased!\n')
-            elif i == 1:
-                print(f'Increasing {data[-1][i]} least favourite value...\n')
-                TALLIES.update(least_cells[data[-1][i]], tally)
-                print(f'{data[-1][i]} increased!\n')
+    for i in range(len(data[-1])-1):
+        print(data[-1][i])
+        print(i)
+        answer = response_answers[data[-1][i]]
+        tally = int(answers[answer][i+1])
+        tally = tally + 1
+        if i == 0:
+            print(f'Increasing {data[-1][i]} favourites value...\n')
+            TALLIES.update(favourites_cells[data[-1][i]], tally)
+            print(f'{data[-1][i]} increased!\n')
+        elif i == 1:
+            print(f'Increasing {data[-1][i]} least favourite value...\n')
+            TALLIES.update(least_cells[data[-1][i]], tally)
+            print(f'{data[-1][i]} increased!\n')
     print('Response tally calculated!\n')
 
 
