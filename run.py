@@ -15,6 +15,7 @@ SHEET = GSPREAD_CLIENT.open('gaming_questionnaire')
 
 RESPONSES = SHEET.worksheet('Responses')
 COMPLETED = SHEET.worksheet('Completed')
+TALLIES = SHEET.worksheet('Response tally')
 
 responseAnswers = {
     'Strategy': 1,
@@ -59,6 +60,17 @@ platformCells = {
     'PC': 'B2',
     'Console': 'B3'
 }
+tallyCells = {
+    'Strategy': 'B1',
+    'RPG': 'B2',
+    'FPS': 'B3',
+    'Action': 'B4',
+    'TPS': 'B5',
+    'Simulation': 'B6',
+    'Platformer': 'B7',
+    'Adventure': 'B8',
+    'Sport': 'B9'
+}
 
 
 def check_timestamp():
@@ -69,7 +81,9 @@ def check_timestamp():
     timeStamps = RESPONSES.get_all_values()
     latestTime = timeStamps[-1][0]
     completedTimes = COMPLETED.get_all_values()
-    latestCompleted = completedTimes[-1]
+    latestCompleted = completedTimes[-1][0]
+    print(latestTime)
+    print(latestCompleted)
     if latestTime == latestCompleted:
         return False
     return True
@@ -92,8 +106,7 @@ def calculate_response_tally(data):
     Gets each response made and calculates how many times
     the response was given
     """
-    tallies = SHEET.worksheet('Response tally')
-    answers = tallies.get_all_values()
+    answers = TALLIES.get_all_values()
     for i in range(len(data[-1])):
         if data[-1][i] == ('Mobile' or 'PC' or 'Console'):
             continue
@@ -102,9 +115,9 @@ def calculate_response_tally(data):
             tally = int(answers[answer][i+1])
             tally = tally + 1
             if i == 0:
-                tallies.update(favouritesCells[data[-1][i]], tally)
+                TALLIES.update(favouritesCells[data[-1][i]], tally)
             elif i == 1:
-                tallies.update(leastCells[data[-1][i]], tally)
+                TALLIES.update(leastCells[data[-1][i]], tally)
 
 
 def tally_platform_choices(data):
@@ -131,8 +144,21 @@ def update_completed_checks():
     COMPLETED.update('A2', timestamp)
 
 
+def update_total_tally():
+    """
+    Updates response total tally
+    """
+    answers = TALLIES.get_all_values()
+    answers = answers[slice(1, 10)]
+    totalTally = SHEET.worksheet('Response total tally')
+    for i in range(len(answers)):
+        total = int(answers[i][1]) - int(answers[i][2])
+        totalTally.update(tallyCells[answers[i][0]], total)
+
+
 if check_timestamp():
     results = get_responses()
     calculate_response_tally(results)
     tally_platform_choices(results)
     update_completed_checks()
+    update_total_tally()
