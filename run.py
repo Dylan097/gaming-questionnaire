@@ -77,14 +77,15 @@ def check_timestamp():
     Check and compare timestamps between latest response and 
     latest completed response
     """
+    print('Comparing time stamps...\n')
     timeStamps = RESPONSES.get_all_values()
     latestTime = timeStamps[-1][0]
     completedTimes = COMPLETED.get_all_values()
     latestCompleted = completedTimes[-1][0]
-    print(latestTime)
-    print(latestCompleted)
     if latestTime == latestCompleted:
+        print('TimeStamps are the same, rechecking...\n')
         return False
+    print('TimeStamps different! Moving to next step...\n')
     return True
 
 
@@ -93,10 +94,12 @@ def get_responses():
     Collect the responses from the spreadsheet.
     Return the data for calculation for other spreadsheets
     """
+    print('Getting responses...\n')
     data = RESPONSES.get_all_values()
     for i in range(len(data)):
         data[i] = data[i][slice(1,4)]
     data = data[slice(1, (len(data)+1))]
+    print('Responses recieved!\n')
     return data
 
 
@@ -105,6 +108,7 @@ def calculate_response_tally(data):
     Gets each response made and calculates how many times
     the response was given
     """
+    print('Calculating responses tally...\n')
     answers = TALLIES.get_all_values()
     for i in range(len(data[-1])):
         if data[-1][i] == ('Mobile' or 'PC' or 'Console'):
@@ -114,9 +118,14 @@ def calculate_response_tally(data):
             tally = int(answers[answer][i+1])
             tally = tally + 1
             if i == 0:
+                print(f'Increasing {data[-1][i]} favourites value...\n')
                 TALLIES.update(favouritesCells[data[-1][i]], tally)
+                print(f'{data[-1][i]} increased!\n')
             elif i == 1:
+                print(f'Increasing {data[-1][i]} least favourite value...\n')
                 TALLIES.update(leastCells[data[-1][i]], tally)
+                print(f'{data[-1][i]} increased!\n')
+    print('Response tally calculated!\n')
 
 
 def tally_platform_choices(data):
@@ -124,6 +133,7 @@ def tally_platform_choices(data):
     Tally up the platform choice data and update
     the spreadsheet with the tally values
     """
+    print('Calculating platform choices...\n')
     platform = SHEET.worksheet('Platform choice')
     answers = platform.get_all_values()
     answer = platformChoices[data[-1][2]]
@@ -131,28 +141,34 @@ def tally_platform_choices(data):
     tally = int(answers[answer][1])
     tally = tally + 1
     platform.update(platformCells[data[-1][2]], tally)
+    print('Platform choices calculated!\n')
 
 
 def update_completed_checks():
     """
     Adds a timestamp to completed worksheet
     """
+    print('Updating completed checks...\n')
     timestamps = RESPONSES.get_all_values()
     timestamp = timestamps[-1][0]
     print(timestamp)
     COMPLETED.update('A2', timestamp)
+    print('Updated completed checks!\n')
 
 
 def update_total_tally():
     """
     Updates response total tally
     """
+    print('Updating total tallies...\n')
     answers = TALLIES.get_all_values()
     answers = answers[slice(1, 10)]
     totalTally = SHEET.worksheet('Response total tally')
     for i in range(len(answers)):
+        print(f'updating {answers[i][0]}...\n')
         total = int(answers[i][1]) - int(answers[i][2])
         totalTally.update(tallyCells[answers[i][0]], total)
+        print(f'{answers[i][0]} updated!\n')
 
 
 def main():
@@ -166,6 +182,7 @@ def main():
             tally_platform_choices(results)
             update_completed_checks()
             update_total_tally()
+            print('All updates completed!\n')
 
 
 main()
