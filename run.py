@@ -156,9 +156,17 @@ def update_total_tally():
         totalTally.update(tallyCells[answers[i][0]], total)
 
 
-if check_timestamp():
-    results = get_responses()
-    calculate_response_tally(results)
-    tally_platform_choices(results)
-    update_completed_checks()
-    update_total_tally()
+def main():
+    """
+    Run all program functions
+    """
+    while True:
+        if check_timestamp():
+            results = get_responses()
+            calculate_response_tally(results)
+            tally_platform_choices(results)
+            update_completed_checks()
+            update_total_tally()
+
+
+main()
