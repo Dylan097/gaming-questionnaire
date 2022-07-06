@@ -83,18 +83,16 @@ def check_timestamp():
     completed_times = COMPLETED.get_all_values()
     complete = [completed_times[i][0] for i in range(len(completed_times))]
     for i in range(len(times)):
-        print(times[i])
         if i == 0:
             continue
         if len(complete) == 1:
             return i - 1
         for j in range(len(complete)):
-            print(complete[j])
             if j == 0:
                 continue
             if times[i] == complete[j]:
                 break
-            if j == len(complete):
+            if j == len(complete) - 1:
                 print(f'{times[i]} is incomplete')
                 return i - 1
 
@@ -182,14 +180,17 @@ def main():
     """
     Run all program functions
     """
-    #while True:
-    response = check_timestamp()
-    results = get_responses()
-    calculate_response_tally(results, response)
-    tally_platform_choices(results, response)
-    update_completed_checks(response)
-        #update_total_tally()
-        #print('All updates completed!\n')
+    while True:
+        response = check_timestamp()
+        if response is not None:
+            results = get_responses()
+            calculate_response_tally(results, response)
+            tally_platform_choices(results, response)
+            update_completed_checks(response)
+            update_total_tally()
+            print('All updates completed!\n')
+        if input('Press any key to continue or e to exit program\n') == 'e':
+            break
 
 
 main()
