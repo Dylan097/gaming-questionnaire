@@ -136,7 +136,7 @@ def calculate_response_tally(data, time):
     print('Response tally calculated!\n')
 
 
-def tally_platform_choices(data):
+def tally_platform_choices(data, time):
     """
     Tally up the platform choice data and update
     the spreadsheet with the tally values
@@ -144,10 +144,10 @@ def tally_platform_choices(data):
     print('Calculating platform choices...\n')
     platform = SHEET.worksheet('Platform choice')
     answers = platform.get_all_values()
-    answer = platform_choices[data[-1][2]]
+    answer = platform_choices[data[time][2]]
     tally = int(answers[answer][1])
     tally = tally + 1
-    platform.update(platform_cells[data[-1][2]], tally)
+    platform.update(platform_cells[data[time][2]], tally)
     print('Platform choices calculated!\n')
 
 
@@ -185,7 +185,7 @@ def main():
     response = check_timestamp()
     results = get_responses()
     calculate_response_tally(results, response)
-        #tally_platform_choices(results)
+    tally_platform_choices(results, response)
         #update_completed_checks()
         #update_total_tally()
         #print('All updates completed!\n')
