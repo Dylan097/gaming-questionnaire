@@ -74,19 +74,29 @@ tally_cells = {
 
 def check_timestamp():
     """
-    Check and compare timestamps between latest response and 
+    Check and compare timestamps between latest response and
     latest completed response
     """
     print('Comparing time stamps...\n')
     time_stamps = RESPONSES.get_all_values()
-    latest_time = time_stamps[-1][0]
+    times = [time_stamps[i][0] for i in range(len(time_stamps))]
     completed_times = COMPLETED.get_all_values()
-    latest_completed = completed_times[-1][0]
-    if latest_time == latest_completed:
-        print('TimeStamps are the same, rechecking...\n')
-        return False
-    print('TimeStamps different! Moving to next step...\n')
-    return True
+    complete = [completed_times[i][0] for i in range(len(completed_times))]
+    for i in range(len(times)):
+        print(times[i])
+        if i == 0:
+            continue
+        if len(complete) == 1:
+            return i
+        for j in range(len(complete)):
+            print(complete[j])
+            if j == 0:
+                continue
+            if times[i] == complete[j]:
+                break
+            if j == len(complete):
+                print(f'{times[i]} is incomplete')
+                return i
 
 
 def get_responses():
@@ -172,14 +182,15 @@ def main():
     """
     Run all program functions
     """
-    while True:
-        if check_timestamp():
-            results = get_responses()
-            calculate_response_tally(results)
-            tally_platform_choices(results)
-            update_completed_checks()
-            update_total_tally()
-            print('All updates completed!\n')
+    #while True:
+    response = check_timestamp()
+        #results = get_responses()
+        #calculate_response_tally(results)
+        #tally_platform_choices(results)
+        #update_completed_checks()
+        #update_total_tally()
+        #print('All updates completed!\n')
+    print(response)
 
 
 main()
