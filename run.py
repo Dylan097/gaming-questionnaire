@@ -151,14 +151,15 @@ def tally_platform_choices(data, time):
     print('Platform choices calculated!\n')
 
 
-def update_completed_checks():
+def update_completed_checks(time):
     """
     Adds a timestamp to completed worksheet
     """
     print('Updating completed checks...\n')
     time_stamps = RESPONSES.get_all_values()
-    time_stamp = time_stamps[-1][0]
-    COMPLETED.update('A2', time_stamp)
+    time_stamp = [time_stamps[time+1][0]]
+    print(time_stamp)
+    COMPLETED.append_row(time_stamp)
     print('Updated completed checks!\n')
 
 
@@ -186,7 +187,7 @@ def main():
     results = get_responses()
     calculate_response_tally(results, response)
     tally_platform_choices(results, response)
-        #update_completed_checks()
+    update_completed_checks(response)
         #update_total_tally()
         #print('All updates completed!\n')
 
