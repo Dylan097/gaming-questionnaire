@@ -156,7 +156,6 @@ def update_completed_checks(time):
     print('Updating completed checks...\n')
     time_stamps = RESPONSES.get_all_values()
     time_stamp = [time_stamps[time+1][0]]
-    print(time_stamp)
     COMPLETED.append_row(time_stamp)
     print('Updated completed checks!\n')
 
