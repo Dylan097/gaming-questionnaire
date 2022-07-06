@@ -25,7 +25,7 @@ response_answers = {
     'Simulation': 6,
     'Platformer': 7,
     'Adventure': 8,
-    'Sport': 9
+    'Sports': 9
 }
 favourites_cells = {
     'Strategy': 'B2',
@@ -36,7 +36,7 @@ favourites_cells = {
     'Simulation': 'B7',
     'Platformer': 'B8',
     'Adventure': 'B9',
-    'Sport': 'B10'
+    'Sports': 'B10'
 }
 least_cells = {
     'Strategy': 'C2',
@@ -47,7 +47,7 @@ least_cells = {
     'Simulation': 'C7',
     'Platformer': 'C8',
     'Adventure': 'C9',
-    'Sport': 'C10'
+    'Sports': 'C10'
 }
 platform_choices = {
     'Mobile': 0,
@@ -68,7 +68,7 @@ tally_cells = {
     'Simulation': 'B6',
     'Platformer': 'B7',
     'Adventure': 'B8',
-    'Sport': 'B9'
+    'Sports': 'B9'
 }
 
 
@@ -87,7 +87,7 @@ def check_timestamp():
         if i == 0:
             continue
         if len(complete) == 1:
-            return i
+            return i - 1
         for j in range(len(complete)):
             print(complete[j])
             if j == 0:
@@ -96,7 +96,7 @@ def check_timestamp():
                 break
             if j == len(complete):
                 print(f'{times[i]} is incomplete')
-                return i
+                return i - 1
 
 
 def get_responses():
@@ -113,27 +113,26 @@ def get_responses():
     return data
 
 
-def calculate_response_tally(data):
+def calculate_response_tally(data, time):
     """
     Gets each response made and calculates how many times
     the response was given
     """
     print('Calculating responses tally...\n')
     answers = TALLIES.get_all_values()
-    for i in range(len(data[-1])-1):
-        print(data[-1][i])
-        print(i)
-        answer = response_answers[data[-1][i]]
+    response = data[time]
+    for i in range(len(response)-1):
+        answer = response_answers[response[i]]
         tally = int(answers[answer][i+1])
         tally = tally + 1
         if i == 0:
-            print(f'Increasing {data[-1][i]} favourites value...\n')
-            TALLIES.update(favourites_cells[data[-1][i]], tally)
-            print(f'{data[-1][i]} increased!\n')
+            print(f'Increasing {response[i]} favourites value...\n')
+            TALLIES.update(favourites_cells[response[i]], tally)
+            print(f'{response[i]} increased!\n')
         elif i == 1:
-            print(f'Increasing {data[-1][i]} least favourite value...\n')
-            TALLIES.update(least_cells[data[-1][i]], tally)
-            print(f'{data[-1][i]} increased!\n')
+            print(f'Increasing {response[i]} least favourite value...\n')
+            TALLIES.update(least_cells[response[i]], tally)
+            print(f'{response[i]} increased!\n')
     print('Response tally calculated!\n')
 
 
@@ -184,13 +183,12 @@ def main():
     """
     #while True:
     response = check_timestamp()
-        #results = get_responses()
-        #calculate_response_tally(results)
+    results = get_responses()
+    calculate_response_tally(results, response)
         #tally_platform_choices(results)
         #update_completed_checks()
         #update_total_tally()
         #print('All updates completed!\n')
-    print(response)
 
 
 main()
