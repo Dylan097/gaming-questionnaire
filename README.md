@@ -74,3 +74,7 @@ This project was deployed to the Heroku terminal provided by code institute
     - Add `CREDS` and `PORT: 8000` to `Config Vars` in `Settings` tab
     - Link Heroku app to the `gaming-questionnaire` github repository
     - Click on `Deploy`
+
+## Credits
+
+- The code for updating individual cells was found on [pyshark.com](https://pyshark.com/google-sheets-api-using-python/#update-a-cell-value)
