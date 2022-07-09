@@ -34,3 +34,27 @@ When the developer console is open, it'll automatically update the oldest answer
 ### Future Features
 
 - Automatic updates whenever a new response is given
+
+## Testing
+
+I have done manual testing using the following:
+
+- Checked the code using a pep8 linter and came back with no issues
+- Checked each answer that can be given by the user to make sure there's no errors passed
+- Tested using gitpod terminal and Heroku terminal
+
+### Bugs
+
+#### Fixed Bugs
+
+- Response calculation bug
+    - When the 'sport' response was being calculated, the console would return an error stating invalid response.
+    - This bug was fixed by updating the response_answers, favourites_cells and least_cells dictionaries to match the word 'sport' exactly like the answer does.
+
+- Response tally not updating
+    - When the calculate_response_tally function was running, it wouldn't update the tally
+    - This was fixed by removing the if statement `if data[-1][i] == 'Mobile' or 'PC' or 'Console'` and altering the for loop from `for i in range(len(data[-1]))` to `for i in range(len(data[-1])-1)`
+
+#### Unfixed Bugs
+
+- No bugs left unfixed
