@@ -63,3 +63,14 @@ I have done manual testing using the following:
 
 - Pep8
     - No errors returned from [Pep8](http://pep8online.com/checkresult)
+
+## Deployment
+
+This project was deployed to the Heroku terminal provided by code institute
+
+- My deployment steps:
+    - Create new Heroku app called `gaming-questionnaire`
+    - Set `Python` and `NodeJS` buildpacks in that order
+    - Add `CREDS` and `PORT: 8000` to `Config Vars` in `Settings` tab
+    - Link Heroku app to the `gaming-questionnaire` github repository
+    - Click on `Deploy`
