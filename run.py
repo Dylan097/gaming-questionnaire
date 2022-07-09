@@ -105,7 +105,7 @@ def get_responses():
     print('Getting responses...\n')
     data = RESPONSES.get_all_values()
     for i in range(len(data)):
-        data[i] = data[i][slice(1,4)]
+        data[i] = data[i][slice(1, 4)]
     data = data[slice(1, (len(data)+1))]
     print('Responses recieved!\n')
     return data
