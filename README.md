@@ -10,6 +10,8 @@ The python for this questionnaire will compute the answers and return integers t
 
 When the developer console is open, it'll automatically update the oldest answer that hasn't been computed. Once that is computed, the creator just has to press enter to compute the next answer down the list (if there is any), or 'e' and then enter to exit the program.
 
+The user can fill out [this form](https://forms.gle/xBWP94p2hRoVyKdM8), which is automatically added to the spreadsheet after submission, to have the terminal compute their answer.
+
 ## Features
 
 ### Existing Features
@@ -85,6 +87,8 @@ This project was deployed to the Heroku terminal provided by code institute
     - Add `CREDS` and `PORT: 8000` to `Config Vars` in `Settings` tab
     - Link Heroku app to the `gaming-questionnaire` github repository
     - Click on `Deploy`
+
+Deployment link for the project is [here](https://gaming-questionnaire.herokuapp.com/)
 
 ## Credits
 
