@@ -76,6 +76,9 @@ def check_timestamp():
     """
     Check and compare timestamps between latest response and
     latest completed response
+
+    Returns:
+        int: timestamp position in list
     """
     print('Comparing time stamps...\n')
     time_stamps = RESPONSES.get_all_values()
@@ -101,6 +104,9 @@ def get_responses():
     """
     Collect the responses from the spreadsheet.
     Return the data for calculation for other spreadsheets
+
+    Returns:
+        list: all responses given from the form
     """
     print('Getting responses...\n')
     data = RESPONSES.get_all_values()
@@ -113,8 +119,13 @@ def get_responses():
 
 def calculate_response_tally(data, time):
     """
-    Gets each response made and calculates how many times
-    the response was given
+    Calculates the response at the given
+    timestamp and adds 1 to the favourites
+    and least favourites tally
+
+    Args:
+        data (list): Form responses
+        time (int): Timestamp to calculate
     """
     print('Calculating responses tally...\n')
     answers = TALLIES.get_all_values()
@@ -138,6 +149,10 @@ def tally_platform_choices(data, time):
     """
     Tally up the platform choice data and update
     the spreadsheet with the tally values
+
+    Args:
+        data (list): Form responses
+        time (int): Timestamp to calculate
     """
     print('Calculating platform choices...\n')
     platform = SHEET.worksheet('Platform choice')
@@ -152,6 +167,9 @@ def tally_platform_choices(data, time):
 def update_completed_checks(time):
     """
     Adds a timestamp to completed worksheet
+
+    Args:
+        time (int): Timestamp to calculate
     """
     print('Updating completed checks...\n')
     time_stamps = RESPONSES.get_all_values()
@@ -188,7 +206,10 @@ def main():
             update_completed_checks(response)
             update_total_tally()
             print('All updates completed!\n')
+        else:
+            print('All responses up to date!')
         if input('Press any key to continue or e to exit program\n') == 'e':
+            print('Exiting program...')
             break
 
 
